@@ -1,0 +1,101 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Aurora Agile Framework",
+    "description": "Make agile applications without technical debt",
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "string",
+            "description": "Schema version",
+            "default": "0.0.1"
+        },
+        "boundedContextName": {
+            "type": "string",
+            "description": "The name of the bounded context, singular in kebab-case"
+        },
+        "moduleName": {
+            "type": "string",
+            "description": "The name of the module, singular in kebab-case"
+        },
+        "moduleNames": {
+            "type": "string",
+            "description": "The name of the module, plural in kebab-case"
+        },
+        "aggregateName": {
+            "type": "string",
+            "description": "The name of the aggregateName, singular in PascalCase"
+        },
+        "hasOAuth": {
+            "type": "boolean",
+            "description": "Enabled authentication for this module",
+            "default": false
+        },
+        "hasTenant": {
+            "type": "boolean",
+            "description": "Enabled tenant for this module",
+            "default": false
+        },
+        "hasAuditing": {
+            "type": "boolean",
+            "description": "Enabled auditing for this module",
+            "default": false
+        },
+        "aggregateProperties": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/aggregateProperty"
+            }
+        },
+        "additionalApis": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/additionalApi"
+            }
+        }
+    },
+    "required": [
+        "boundedContextName",
+        "moduleName",
+        "moduleNames",
+        "aggregateName"
+    ],
+    "$defs": {
+        "aggregateProperty": {
+            "type": "object",
+            "required": [ "name" ],
+            "name": {
+                "type": "string",
+                "description": "The name of property, in camelCase"
+            }
+        },
+        "additionalApi": {
+            "type": "object",
+            "required": [ "path", "resolverType", "httpMethod" ],
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path to access api"
+                },
+                "resolverType": {
+                    "type": "string",
+                    "description": "Type of resolver, query or mutation",
+                    "enum": [
+                        "query",
+                        "mutation"
+                    ]
+                },
+                "httpMethod": {
+                    "type": "description",
+                    "description": "Verb of api rest",
+                    "enum": [
+                        "get",
+                        "post",
+                        "put",
+                        "delete",
+                        "patch"
+                    ]
+                }
+            }
+        }
+    }
+}
