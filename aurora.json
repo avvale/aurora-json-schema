@@ -63,9 +63,20 @@
         "aggregateProperty": {
             "type": "object",
             "required": [ "name" ],
-            "name": {
-                "type": "string",
-                "description": "The name of property, in camelCase"
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of property, in camelCase"
+                },
+                "webComponent": {
+                    "type": "string",
+                    "description": "Web Component that wil be rendered for this property",
+                        "enum": [
+                            "grid-select-element",
+                            "grid-elements-manager",
+                            "select"
+                        ]
+                }
             }
         },
         "additionalApi": {
@@ -85,7 +96,7 @@
                     ]
                 },
                 "httpMethod": {
-                    "type": "description",
+                    "type": "string",
                     "description": "Verb of api rest",
                     "enum": [
                         "get",
