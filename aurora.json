@@ -43,7 +43,43 @@
         "aggregateProperties": {
             "type": "array",
             "items": {
-                "$ref": "#/$defs/aggregateProperty"
+                "additionalProperties": false,
+                "allOf": [{ "$ref": "#/$defs/aggregateProperty" }],
+                "properties": {
+                    "name": true,
+                    "type": true,
+                    "length": true,
+                    "maxLength": true,
+                    "nullable": true,
+                    "primaryKey": true,
+                    "webComponent": {
+                        "type": "object",
+                        "description": "Web Component that wil be rendered for this property",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "description": "The type of web component",
+                                "enum": [
+                                    "grid-select-element",
+                                    "grid-elements-manager",
+                                    "select"
+                                ]
+                            },
+                            "aggregateProperty": {
+                                "additionalProperties": false,
+                                "allOf": [{ "$ref": "#/$defs/aggregateProperty" }],
+                                "properties": {
+                                    "name": true,
+                                    "type": true,
+                                    "length": true,
+                                    "maxLength": true,
+                                    "nullable": true,
+                                    "primaryKey": true
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "additionalApis": {
@@ -62,20 +98,59 @@
     "$defs": {
         "aggregateProperty": {
             "type": "object",
-            "required": [ "name" ],
+            "required": [ "name", "type" ],
+            "additionalProperties": true,
             "properties": {
                 "name": {
                     "type": "string",
                     "description": "The name of property, in camelCase"
                 },
-                "webComponent": {
+                "type": {
                     "type": "string",
-                    "description": "Web Component that wil be rendered for this property",
-                        "enum": [
-                            "grid-select-element",
-                            "grid-elements-manager",
-                            "select"
-                        ]
+                    "description": "The type of property",
+                    "enum": [
+                        "bigint.unsigned",
+                        "bigint",
+                        "blob.long",
+                        "blob.medium",
+                        "blob.tiny",
+                        "blob",
+                        "boolean",
+                        "char",
+                        "date",
+                        "decimal",
+                        "enum",
+                        "float",
+                        "id",
+                        "int.unsigned",
+                        "int",
+                        "json",
+                        "manyToMany",
+                        "password",
+                        "smallint.unsigned",
+                        "smallint",
+                        "text",
+                        "timestamp",
+                        "tinyint.unsigned",
+                        "tinyint",
+                        "varchar"
+                    ]
+                },
+                "length": {
+                    "type": "number",
+                    "description": "Set max length to property"
+                },
+                "maxLength": {
+                    "type": "number",
+                    "description": "Set max length to property"
+                },
+                "nullable": {
+                    "type": "boolean",
+                    "description": "Set property to nullable"
+                },
+                "primaryKey": {
+                    "type": "boolean",
+                    "description": "Set property to primary key"
                 }
             }
         },
