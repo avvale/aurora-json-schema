@@ -46,14 +46,91 @@
                 "additionalProperties": false,
                 "allOf": [{ "$ref": "#/$defs/aggregateProperty" }],
                 "properties": {
-                    "name": true,
-                    "type": true,
+                    "autoIncrement": true,
+                    "decimals": true,
+                    "defaultValue" : true,
+                    "enumOptions": true,
+                    "example": true,
+                    "index": true,
                     "length": true,
                     "maxLength": true,
+                    "name": true,
                     "nullable": true,
                     "primaryKey": true,
+                    "type": true,
+                    "relationship": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "description": "Relationship definition for this property",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "description": "The type of web component",
+                                "enum": [
+                                    "many-to-many",
+                                    "many-to-one",
+                                    "none",
+                                    "one-to-many",
+                                    "one-to-one"
+                                ]
+                            },
+                            "singularName": {
+                                "type": "string",
+                                "description": "Singular name of the property referred to in the relationship, only for one-to-many and many-to-many relationship, example: book"
+                            },
+                            "aggregate": {
+                                "type": "string",
+                                "description": "Aggregate referring to this relationship, example: LibraryAuthor"
+                            },
+                            "modulePath": {
+                                "type": "string",
+                                "description": "Path to the module that refers to this relationship, example: library/author"
+                            },
+                            "key": {
+                                "type": "string",
+                                "description": "Property key that refers to this relationship, only for many-to-one relationship, example: id"
+                            },
+                            "field": {
+                                "type": "string",
+                                "description": "Field to obtain the relationship data, example: author"
+                            },
+                            "avoidConstraint": {
+                                "type": "boolean",
+                                "description": "Avoid constraint rules for this relationship"
+                            },
+                            "packageName": {
+                                "type": "string",
+                                "description": "Path to packageName where is the relationship, example: @aurora-ts/core"
+                            },
+                            "isDenormalized": {
+                                "type": "boolean",
+                                "description": "Set many-to-many relationship as denormalized, creating a field to store the selected ids"
+                            },
+                            "pivot": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "description": "Relationship pivot table definition for this relationship",
+                                "properties": {
+                                    "aggregate": {
+                                        "type": "string",
+                                        "description": "AggregateName of Pivot table, example: IamRolesAccounts"
+                                    },
+                                    "modulePath": {
+                                        "type": "string",
+                                        "description": "Module path where table model file will be saved, example: iam/role"
+                                    },
+                                    "fileName": {
+                                        "type": "string",
+                                        "description": "Filename of pivot table model file, example: roles-accounts",
+                                        "example": "roles-accounts"
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "webComponent": {
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "Web Component that wil be rendered for this property",
                         "properties": {
                             "type": {
@@ -127,6 +204,7 @@
                         "json",
                         "manyToMany",
                         "password",
+                        "relationship",
                         "smallint.unsigned",
                         "smallint",
                         "text",
@@ -151,6 +229,40 @@
                 "primaryKey": {
                     "type": "boolean",
                     "description": "Set property to primary key"
+                },
+                "index": {
+                    "type": "string",
+                    "description": "To define property like a index",
+                    "enum": [
+                        "index",
+                        "unique"
+                    ]
+                },
+                "enumOptions": {
+                    "type": "array",
+                    "description": "Values for enum type",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "defaultValue": {
+                    "type": ["number", "string", "boolean"],
+                    "description": "Default value for property"
+                },
+                "example": {
+                    "type": ["number", "string", "boolean"],
+                    "description": "Example value for property, this value will be used in swagger documentation"
+                },
+                "decimals": {
+                    "type": "array",
+                    "description": "Total digits of the number and length of the decimal places in the back of the number, example: [10, 2].",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "autoIncrement": {
+                    "type": "boolean",
+                    "description": "Set number property as auto increment"
                 }
             }
         },
