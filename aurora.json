@@ -141,18 +141,6 @@
                                     "grid-elements-manager",
                                     "select"
                                 ]
-                            },
-                            "aggregateProperty": {
-                                "additionalProperties": false,
-                                "allOf": [{ "$ref": "#/$defs/aggregateProperty" }],
-                                "properties": {
-                                    "name": true,
-                                    "type": true,
-                                    "length": true,
-                                    "maxLength": true,
-                                    "nullable": true,
-                                    "primaryKey": true
-                                }
                             }
                         }
                     }
