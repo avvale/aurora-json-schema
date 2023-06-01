@@ -52,6 +52,7 @@
           "enumOptions": true,
           "example": true,
           "index": true,
+          "isI18n": true,
           "length": true,
           "maxLength": true,
           "name": true,
@@ -222,6 +223,10 @@
           "type": "string",
           "description": "To define property like a index",
           "enum": ["index", "unique"]
+        },
+        "isI18n": {
+          "type": "boolean",
+          "description": "Set property to i18n, this property may be translated into several languages"
         },
         "enumOptions": {
           "type": "array",
