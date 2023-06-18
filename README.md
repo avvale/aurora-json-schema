@@ -11,3 +11,8 @@ https://marketplace.visualstudio.com/items?itemName=prosser.json-schema-2020-val
 
 DOCUMENTACIÓN
 https://json-schema.org/understanding-json-schema/index.html
+
+
+
+add Aurora framework schema
+Add a new schema for Aurora Framework model definition file
