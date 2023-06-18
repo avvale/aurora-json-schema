@@ -1,78 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Aurora Agile Meta Framework",
-  "description": "Make agile applications without technical debt",
-  "type": "object",
-  "required": [
-    "boundedContextName",
-    "moduleName",
-    "moduleNames",
-    "aggregateName"
-  ],
   "additionalProperties": false,
-  "properties": {
-    "version": {
-      "type": "string",
-      "description": "Schema version",
-      "default": "0.0.1"
-    },
-    "boundedContextName": {
-      "type": "string",
-      "description": "The name of the bounded context, singular in kebab-case"
-    },
-    "moduleName": {
-      "type": "string",
-      "description": "The name of the module, singular in kebab-case"
-    },
-    "moduleNames": {
-      "type": "string",
-      "description": "The name of the module, plural in kebab-case"
-    },
-    "aggregateName": {
-      "type": "string",
-      "description": "The name of the aggregateName, singular in PascalCase"
-    },
-    "hasOAuth": {
-      "type": "boolean",
-      "description": "Enabled authentication for this module",
-      "default": false
-    },
-    "hasTenant": {
-      "type": "boolean",
-      "description": "Enabled tenant for this module",
-      "default": false
-    },
-    "hasAuditing": {
-      "type": "boolean",
-      "description": "Enabled auditing for this module",
-      "default": false
-    },
-    "aggregateProperties": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/property"
-      }
-    },
-    "aggregateI18nProperties": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/property"
-      }
-    },
-    "additionalApis": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/apiDefinition"
-      }
-    }
-  },
   "definitions": {
     "property": {
       "type": "object",
-      "required": [
-        "name",
-        "type"
-      ],
+      "required": ["name", "type"],
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -130,10 +62,7 @@
         "index": {
           "type": "string",
           "description": "To define property like a index",
-          "enum": [
-            "index",
-            "unique"
-          ]
+          "enum": ["index", "unique"]
         },
         "indexName": {
           "type": "string",
@@ -195,11 +124,7 @@
     },
     "apiDefinition": {
       "type": "object",
-      "required": [
-        "path",
-        "resolverType",
-        "httpMethod"
-      ],
+      "required": ["path", "resolverType", "httpMethod"],
       "properties": {
         "path": {
           "type": "string",
@@ -208,21 +133,12 @@
         "resolverType": {
           "type": "string",
           "description": "Type of resolver, query or mutation",
-          "enum": [
-            "query",
-            "mutation"
-          ]
+          "enum": ["query", "mutation"]
         },
         "httpMethod": {
           "type": "string",
           "description": "Verb of api rest",
-          "enum": [
-            "get",
-            "post",
-            "put",
-            "delete",
-            "patch"
-          ]
+          "enum": ["get", "post", "put", "delete", "patch"]
         }
       }
     },
@@ -287,11 +203,7 @@
         "type": {
           "type": "string",
           "description": "The type of web component",
-          "enum": [
-            "grid-select-element",
-            "grid-elements-manager",
-            "select"
-          ]
+          "enum": ["grid-select-element", "grid-elements-manager", "select"]
         }
       }
     },
@@ -314,5 +226,70 @@
         }
       }
     }
-  }
+  },
+  "description": "Make agile applications without technical debt",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version",
+      "default": "0.0.1"
+    },
+    "boundedContextName": {
+      "type": "string",
+      "description": "The name of the bounded context, singular in kebab-case"
+    },
+    "moduleName": {
+      "type": "string",
+      "description": "The name of the module, singular in kebab-case"
+    },
+    "moduleNames": {
+      "type": "string",
+      "description": "The name of the module, plural in kebab-case"
+    },
+    "aggregateName": {
+      "type": "string",
+      "description": "The name of the aggregateName, singular in PascalCase"
+    },
+    "hasOAuth": {
+      "type": "boolean",
+      "description": "Enabled authentication for this module",
+      "default": false
+    },
+    "hasTenant": {
+      "type": "boolean",
+      "description": "Enabled tenant for this module",
+      "default": false
+    },
+    "hasAuditing": {
+      "type": "boolean",
+      "description": "Enabled auditing for this module",
+      "default": false
+    },
+    "aggregateProperties": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/property"
+      }
+    },
+    "aggregateI18nProperties": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/property"
+      }
+    },
+    "additionalApis": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/apiDefinition"
+      }
+    }
+  },
+  "required": [
+    "boundedContextName",
+    "moduleName",
+    "moduleNames",
+    "aggregateName"
+  ],
+  "title": "Aurora Agile Meta Framework",
+  "type": "object"
 }
