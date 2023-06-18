@@ -9,7 +9,8 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "The name of property, in camelCase"
+          "description": "The name of property, in camelCase",
+          "minLength": 2
         },
         "type": {
           "type": "string",
@@ -45,11 +46,13 @@
         },
         "length": {
           "type": "number",
-          "description": "Set max length to property"
+          "description": "Set max length to property",
+          "minimum": 1
         },
         "maxLength": {
           "type": "number",
-          "description": "Set max length to property"
+          "description": "Set max length to property",
+          "minimum": 1
         },
         "nullable": {
           "type": "boolean",
@@ -66,48 +69,31 @@
         },
         "indexName": {
           "type": "string",
-          "description": "The name of index, if there are various indexes with the same name, they will be grouped"
+          "description": "The name of index, if there are various indexes with the same name, they will be grouped",
+          "minLength": 2
         },
         "enumOptions": {
           "type": "array",
           "description": "Values for enum type",
           "items": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           }
         },
         "defaultValue": {
-          "anyOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
+          "type": ["number", "string", "boolean"],
           "description": "Default value for property"
         },
         "example": {
-          "anyOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
+          "type": ["number", "string", "boolean"],
           "description": "Example value for property, this value will be used in swagger documentation"
         },
         "decimals": {
           "type": "array",
           "description": "Total digits of the number and length of the decimal places in the back of the number, example: [10, 2].",
           "items": {
-            "type": "number"
+            "type": "number",
+            "minimum": 1
           }
         },
         "autoIncrement": {
@@ -128,7 +114,8 @@
       "properties": {
         "path": {
           "type": "string",
-          "description": "Path to access api"
+          "description": "Path to access api",
+          "minLength": 2
         },
         "resolverType": {
           "type": "string",
@@ -160,23 +147,28 @@
         },
         "singularName": {
           "type": "string",
-          "description": "Singular name of the property referred to in the relationship, only for one-to-many and many-to-many relationship, example: book"
+          "description": "Singular name of the property referred to in the relationship, only for one-to-many and many-to-many relationship, example: book",
+          "minLength": 2
         },
         "aggregate": {
           "type": "string",
-          "description": "Aggregate referring to this relationship, example: LibraryAuthor"
+          "description": "Aggregate referring to this relationship, example: LibraryAuthor",
+          "minLength": 2
         },
         "modulePath": {
           "type": "string",
-          "description": "Path to the module that refers to this relationship, example: library/author"
+          "description": "Path to the module that refers to this relationship, example: library/author",
+          "minLength": 2
         },
         "key": {
           "type": "string",
-          "description": "Property key that refers to this relationship, only for many-to-one relationship, example: id"
+          "description": "Property key that refers to this relationship, only for many-to-one relationship, example: id",
+          "minLength": 2
         },
         "field": {
           "type": "string",
-          "description": "Field to obtain the relationship data, example: author"
+          "description": "Field to obtain the relationship data, example: author",
+          "minLength": 2
         },
         "avoidConstraint": {
           "type": "boolean",
@@ -184,7 +176,8 @@
         },
         "packageName": {
           "type": "string",
-          "description": "Path to packageName where is the relationship, example: @aurora-ts/core"
+          "description": "Path to packageName where is the relationship, example: @aurora-ts/core",
+          "minLength": 2
         },
         "isDenormalized": {
           "type": "boolean",
@@ -214,15 +207,18 @@
       "properties": {
         "aggregate": {
           "type": "string",
-          "description": "AggregateName of Pivot table, example: IamRolesAccounts"
+          "description": "AggregateName of Pivot table, example: IamRolesAccounts",
+          "minLength": 2
         },
         "modulePath": {
           "type": "string",
-          "description": "Module path where table model file will be saved, example: iam/role"
+          "description": "Module path where table model file will be saved, example: iam/role",
+          "minLength": 2
         },
         "fileName": {
           "type": "string",
-          "description": "Filename of pivot table model file, example: roles-accounts"
+          "description": "Filename of pivot table model file, example: roles-accounts",
+          "minLength": 2
         }
       }
     }
@@ -232,23 +228,28 @@
     "version": {
       "type": "string",
       "description": "Schema version",
-      "default": "0.0.1"
+      "default": "0.0.1",
+      "minLength": 2
     },
     "boundedContextName": {
       "type": "string",
-      "description": "The name of the bounded context, singular in kebab-case"
+      "description": "The name of the bounded context, singular in kebab-case",
+      "minLength": 2
     },
     "moduleName": {
       "type": "string",
-      "description": "The name of the module, singular in kebab-case"
+      "description": "The name of the module, singular in kebab-case",
+      "minLength": 2
     },
     "moduleNames": {
       "type": "string",
-      "description": "The name of the module, plural in kebab-case"
+      "description": "The name of the module, plural in kebab-case",
+      "minLength": 2
     },
     "aggregateName": {
       "type": "string",
-      "description": "The name of the aggregateName, singular in PascalCase"
+      "description": "The name of the aggregateName, singular in PascalCase",
+      "minLength": 2
     },
     "hasOAuth": {
       "type": "boolean",
