@@ -17,6 +17,7 @@
           "type": "string",
           "description": "The type of property",
           "enum": [
+            "array",
             "bigint.unsigned",
             "bigint",
             "blob.long",
@@ -45,6 +46,45 @@
             "varchar"
           ]
         },
+        "arrayOptions": {
+          "type": "object",
+          "description": "Options to define array property",
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type of property",
+              "enum": [
+                "char",
+                "date",
+                "decimal",
+                "enum",
+                "id",
+                "int",
+                "timestamp",
+                "varchar"
+              ]
+            },
+            "length": {
+              "type": "number",
+              "description": "Set max length to property",
+              "minimum": 1
+            },
+            "maxLength": {
+              "type": "number",
+              "description": "Set max length to property",
+              "minimum": 1
+            },
+            "enumOptions": {
+              "type": "array",
+              "description": "Values for enum type",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
         "length": {
           "type": "number",
           "description": "Set max length to property",
@@ -58,6 +98,10 @@
         "nullable": {
           "type": "boolean",
           "description": "Set property to nullable"
+        },
+        "unsigned": {
+          "type": "boolean",
+          "description": "Set property like unsigned"
         },
         "primaryKey": {
           "type": "boolean",
@@ -90,7 +134,7 @@
           "description": "Default value for property"
         },
         "example": {
-          "type": ["number", "string", "boolean"],
+          "type": ["number", "string", "boolean", "array"],
           "description": "Example value for property, this value will be used in swagger documentation"
         },
         "decimals": {
