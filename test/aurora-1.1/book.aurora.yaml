@@ -1,5 +1,5 @@
 version: 0.0.1
-packageName: library
+boundedContextName: library
 moduleName: book
 moduleNames: books
 aggregateName: LibraryBook
@@ -20,7 +20,7 @@ aggregateProperties:
     type: date
     nullable: false
   - name: price
-    type: int.unsigned
+    type: int
     maxLength: 10
     nullable: false
   - name: authorId
@@ -29,7 +29,7 @@ aggregateProperties:
     nullable: false
     relationship:
       type: many-to-one
-      aggregate: LibraryAuthor
+      aggregateName: LibraryAuthor
       modulePath: library/author
       key: id
       field: author
@@ -47,4 +47,3 @@ aggregateProperties:
   - name: deletedAt
     type: timestamp
     nullable: true
-additionalApis: []

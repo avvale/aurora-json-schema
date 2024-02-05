@@ -1,5 +1,5 @@
 version: 0.0.1
-packageName: library
+boundedContextName: library
 moduleName: author
 moduleNames: authors
 aggregateName: LibraryAuthor
@@ -22,7 +22,7 @@ aggregateProperties:
     relationship:
       type: one-to-many
       singularName: book
-      aggregate: LibraryBook
+      aggregateName: LibraryBook
       modulePath: library/book
     webComponent:
       type: grid-elements-manager
