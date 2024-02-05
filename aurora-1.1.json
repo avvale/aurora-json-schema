@@ -18,7 +18,6 @@
           "description": "The type of property",
           "enum": [
             "array",
-            "bigint.unsigned",
             "bigint",
             "blob.long",
             "blob.medium",
@@ -31,18 +30,14 @@
             "enum",
             "float",
             "id",
-            "int.unsigned",
             "int",
             "json",
             "manyToMany",
             "password",
             "relationship",
-            "smallint.unsigned",
             "smallint",
             "text",
             "timestamp",
-            "tinyint.unsigned",
-            "tinyint",
             "varchar"
           ]
         },
@@ -264,14 +259,24 @@
       "additionalProperties": false,
       "description": "Appearance properties for front application",
       "properties": {
-        "solidIcon": {
+        "outlineFontSetIcon": {
           "type": "string",
-          "description": "Define icon to be used in the front application, example: heroicons_solid:tag",
+          "description": "Font set outline icon to be used in the front application, example: material-symbols-outlined",
           "minLength": 2
         },
         "outlineIcon": {
           "type": "string",
-          "description": "The name of the package, singular in kebab-case",
+          "description": "Outline icon to be used in the front application, example: heroicons_solid:tag",
+          "minLength": 2
+        },
+        "solidFontSetIcon": {
+          "type": "string",
+          "description": "Font set solid icon to be used in the front application, example: material-symbols-outlined",
+          "minLength": 2
+        },
+        "solidIcon": {
+          "type": "string",
+          "description": "Solid icon to be used in the front application, example: heroicons_solid:tag",
           "minLength": 2
         }
       }
