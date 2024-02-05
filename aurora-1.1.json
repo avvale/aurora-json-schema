@@ -251,7 +251,13 @@
         "type": {
           "type": "string",
           "description": "The type of web component",
-          "enum": ["grid-select-element", "grid-select-multiple-elements", "grid-elements-manager", "multiple-select", "select"]
+          "enum": [
+            "grid-select-element",
+            "grid-select-multiple-elements",
+            "grid-elements-manager",
+            "multiple-select",
+            "select"
+          ]
         }
       }
     },
