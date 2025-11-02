@@ -4,7 +4,7 @@
   "$comment": "https://docs.aurorajs.dev/",
   "additionalProperties": false,
   "definitions": {
-    "property": {
+    "propertyDefinition": {
       "type": "object",
       "required": ["name", "type"],
       "additionalProperties": false,
@@ -14,9 +14,17 @@
           "description": "The name of property, in camelCase",
           "minLength": 2
         },
+        "description": {
+          "type": "string",
+          "description": "The description of the property",
+          "minLength": 2
+        },
         "type": {
           "type": "string",
           "description": "The type of property",
+          "examples": [
+            "varchar"
+          ],
           "enum": [
             "array",
             "bigint",
@@ -28,6 +36,7 @@
             "char",
             "date",
             "decimal",
+            "encrypted",
             "enum",
             "float",
             "id",
@@ -122,6 +131,11 @@
           "description": "The name of index, if there are various indexes with the same name, they will be grouped",
           "minLength": 2
         },
+        "indexUsing": {
+          "type": "string",
+          "description": "To define property like a index",
+          "enum": ["Btree", "GIN", "HASH", "spgist", "GiST", "BRIN" ]
+        },
         "isI18n": {
           "type": "boolean",
           "description": "Set property as i18n, this property will be used to translate the entity in the translation table"
@@ -158,36 +172,50 @@
           "type": "boolean",
           "description": "Set number property as auto increment"
         },
+        "applyTimezone": {
+          "type": "boolean",
+          "description": "Apply timezone to date property, by default is true"
+        },
         "relationship": {
-          "$ref": "#/definitions/relationship"
+          "$ref": "#/definitions/relationshipDefinition"
         },
         "webComponent": {
-          "$ref": "#/definitions/webComponent"
+          "$ref": "#/definitions/webComponentDefinition"
         }
       }
     },
-    "apiDefinition": {
+    "additionalApisDefinition": {
       "type": "object",
       "required": ["path", "resolverType", "httpMethod"],
       "properties": {
         "path": {
           "type": "string",
           "description": "Path to access api",
-          "minLength": 2
+          "minLength": 2,
+          "examples": [
+            "auditing/side-effect/rollback",
+            "iam/account/check-unique-username"
+          ]
         },
         "resolverType": {
           "type": "string",
           "description": "Type of resolver, query or mutation",
-          "enum": ["query", "mutation"]
+          "enum": ["query", "mutation"],
+          "examples": [
+            "query"
+          ]
         },
         "httpMethod": {
           "type": "string",
           "description": "Verb of api rest",
-          "enum": ["get", "post", "put", "delete", "patch"]
+          "enum": ["get", "post", "put", "delete", "patch"],
+          "examples": [
+            "post"
+          ]
         }
       }
     },
-    "relationship": {
+    "relationshipDefinition": {
       "type": "object",
       "additionalProperties": false,
       "description": "Relationship definition for this property",
@@ -228,6 +256,11 @@
           "description": "Field to obtain the relationship data, example: author",
           "minLength": 2
         },
+        "description": {
+          "type": "string",
+          "description": "The description of the relationship field",
+          "minLength": 2
+        },
         "avoidConstraint": {
           "type": "boolean",
           "description": "Avoid constraint rules for this relationship"
@@ -242,11 +275,11 @@
           "description": "Set many-to-many relationship as denormalized, creating a field to store the selected ids"
         },
         "pivot": {
-          "$ref": "#/definitions/pivotTable"
+          "$ref": "#/definitions/pivotTableDefinition"
         }
       }
     },
-    "webComponent": {
+    "webComponentDefinition": {
       "type": "object",
       "additionalProperties": false,
       "description": "Web Component that wil be rendered for this property",
@@ -276,6 +309,10 @@
           "description": "Web component order on detail view",
           "minimum": 1
         },
+        "isDetailHidden": {
+          "type": "boolean",
+          "description": "Set hidden web component on detail view"
+        },
         "listSort": {
           "type": "number",
           "description": "Web component order on list view",
@@ -284,15 +321,16 @@
         "isListHidden": {
           "type": "boolean",
           "description": "Set hidden web component on list view"
-        },
-        "isDetailHidden": {
-          "type": "boolean",
-          "description": "Set hidden web component on detail view"
         }
       }
     },
-    "excludedOperationValues": {
+    "excludedOperationDefinition": {
       "type": "array",
+      "description": "Operations to be excluded from the module",
+      "examples": [
+        ["create", "update", "delete"],
+        ["create", "update", "delete", "findById"]
+      ],
       "items": {
         "enum": [
           "count",
@@ -307,6 +345,7 @@
           "min",
           "paginate",
           "rawSql",
+          "getRaw",
           "sum",
           "updateAndIncrement",
           "updateById",
@@ -315,34 +354,48 @@
         ]
       }
     },
-    "front": {
+    "frontDefinition": {
       "type": "object",
       "additionalProperties": false,
       "description": "Appearance properties for front application",
       "properties": {
         "outlineFontSetIcon": {
           "type": "string",
-          "description": "Font set outline icon to be used in the front application, example: material-symbols-outlined",
-          "minLength": 2
+          "description": "Font set outline icon to be used in the front application",
+          "minLength": 2,
+          "examples": [
+            "material-symbols-outlined"
+          ]
         },
         "outlineIcon": {
           "type": "string",
-          "description": "Outline icon to be used in the front application, example: heroicons_solid:tag",
-          "minLength": 2
+          "description": "Outline icon to be used in the front application",
+          "minLength": 2,
+          "examples": [
+            "heroicons_solid:tag",
+            "photo_auto_merge"
+          ]
         },
         "solidFontSetIcon": {
           "type": "string",
-          "description": "Font set solid icon to be used in the front application, example: material-symbols-outlined",
-          "minLength": 2
+          "description": "Font set solid icon to be used in the front application",
+          "minLength": 2,
+          "examples": [
+            "material-symbols-outlined"
+          ]
         },
         "solidIcon": {
           "type": "string",
-          "description": "Solid icon to be used in the front application, example: heroicons_solid:tag",
-          "minLength": 2
+          "description": "Solid icon to be used in the front application",
+          "minLength": 2,
+          "examples": [
+            "heroicons_solid:tag",
+            "photo_auto_merge"
+          ]
         }
       }
     },
-    "pivotTable": {
+    "pivotTableDefinition": {
       "type": "object",
       "additionalProperties": false,
       "description": "Relationship pivot table definition for this relationship",
@@ -380,7 +433,7 @@
         "aggregateProperties": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/property"
+            "$ref": "#/definitions/propertyDefinition"
           }
         },
         "excludedFiles": {
@@ -390,7 +443,7 @@
           }
         },
         "excludedOperations": {
-          "$ref": "#/definitions/excludedOperationValues"
+          "$ref": "#/definitions/excludedOperationDefinition"
         }
       }
     }
@@ -405,62 +458,92 @@
     },
     "boundedContextName": {
       "type": "string",
-      "description": "The name of the package, singular in kebab-case",
+      "description": "The name of the package, singular in kebab case",
+      "examples": [
+        "iam",
+        "queue-manager"
+      ],
       "minLength": 2
     },
     "moduleName": {
       "type": "string",
-      "description": "The name of the module, singular in kebab-case",
+      "description": "The name of the module, singular in kebab case",
+      "examples": [
+        "account",
+        "job-registry"
+      ],
       "minLength": 2
     },
     "moduleNames": {
       "type": "string",
-      "description": "The name of the module, plural in kebab-case",
+      "description": "The name of the module, plural in kebab case",
+      "examples": [
+        "accounts",
+        "jobs-registry"
+      ],
       "minLength": 2
     },
     "aggregateName": {
       "type": "string",
-      "description": "The name of the aggregateName, singular in PascalCase",
+      "description": "The name of the aggregateName, singular in pascal case, is composed of the boundedContextName plus the moduleName",
+      "examples": [
+        "IamAccount",
+        "QueueManagerJobRegistry"
+      ],
       "minLength": 2
     },
     "hasOAuth": {
       "type": "boolean",
       "description": "Enabled authentication for this module",
+      "examples": [
+        false
+      ],
       "default": false
     },
     "hasTenant": {
       "type": "boolean",
       "description": "Enabled tenant for this module",
+      "examples": [
+        false
+      ],
       "default": false
     },
     "hasAuditing": {
       "type": "boolean",
       "description": "Enabled auditing for this module",
+      "examples": [
+        false
+      ],
       "default": false
     },
     "front": {
-      "$ref": "#/definitions/front"
+      "$ref": "#/definitions/frontDefinition"
     },
     "aggregateProperties": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/property"
+        "$ref": "#/definitions/propertyDefinition"
       }
     },
     "additionalApis": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/apiDefinition"
+        "$ref": "#/definitions/additionalApisDefinition"
       }
     },
     "excludedFiles": {
       "type": "array",
+      "description": "Files to be excluded from the module",
+      "examples": [
+        "src/@api/iam/account/resolvers/iam-create-accounts.resolver.ts",
+        "src/@api/iam/account/resolvers/iam-create-accounts.resolver.spec.ts"
+      ],
       "items": {
         "type": "string"
       }
     },
     "excludedOperations": {
-      "$ref": "#/definitions/excludedOperationValues"
+      "$ref": "#/definitions/excludedOperationDefinition"
     }
   },
   "required": [
