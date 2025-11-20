@@ -6,7 +6,10 @@
   "definitions": {
     "propertyDefinition": {
       "type": "object",
-      "required": ["name", "type"],
+      "required": [
+        "name",
+        "type"
+      ],
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -22,7 +25,9 @@
         "type": {
           "type": "string",
           "description": "The type of property",
-          "examples": ["varchar"],
+          "examples": [
+            "varchar"
+          ],
           "enum": [
             "array",
             "bigint",
@@ -53,7 +58,9 @@
         "arrayOptions": {
           "type": "object",
           "description": "Options to define array property",
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "properties": {
             "type": {
               "type": "string",
@@ -114,7 +121,10 @@
         "index": {
           "type": "string",
           "description": "To define property like a index",
-          "enum": ["index", "unique"]
+          "enum": [
+            "index",
+            "unique"
+          ]
         },
         "indexFields": {
           "type": "array",
@@ -132,7 +142,14 @@
         "indexUsing": {
           "type": "string",
           "description": "To define property like a index",
-          "enum": ["Btree", "GIN", "HASH", "spgist", "GiST", "BRIN"]
+          "enum": [
+            "Btree",
+            "GIN",
+            "HASH",
+            "spgist",
+            "GiST",
+            "BRIN"
+          ]
         },
         "isI18n": {
           "type": "boolean",
@@ -148,14 +165,25 @@
         },
         "defaultValue": {
           "oneOf": [
-            { "type": "string" },
-            { "type": "number" },
-            { "type": "boolean" }
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
           ],
           "description": "Default value for property"
         },
         "example": {
-          "type": ["number", "string", "boolean", "array"],
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "array"
+          ],
           "description": "Example value for property, this value will be used in swagger documentation"
         },
         "decimals": {
@@ -169,6 +197,10 @@
         "autoIncrement": {
           "type": "boolean",
           "description": "Set number property as auto increment"
+        },
+        "readOnly": {
+          "type": "boolean",
+          "description": "Set property as read only"
         },
         "applyTimezone": {
           "type": "boolean",
@@ -184,7 +216,11 @@
     },
     "additionalApisDefinition": {
       "type": "object",
-      "required": ["path", "resolverType", "httpMethod"],
+      "required": [
+        "path",
+        "resolverType",
+        "httpMethod"
+      ],
       "properties": {
         "path": {
           "type": "string",
@@ -198,14 +234,27 @@
         "resolverType": {
           "type": "string",
           "description": "Type of resolver, query or mutation",
-          "enum": ["query", "mutation"],
-          "examples": ["query"]
+          "enum": [
+            "query",
+            "mutation"
+          ],
+          "examples": [
+            "query"
+          ]
         },
         "httpMethod": {
           "type": "string",
           "description": "Verb of api rest",
-          "enum": ["get", "post", "put", "delete", "patch"],
-          "examples": ["post"]
+          "enum": [
+            "get",
+            "post",
+            "put",
+            "delete",
+            "patch"
+          ],
+          "examples": [
+            "post"
+          ]
         }
       }
     },
@@ -322,8 +371,17 @@
       "type": "array",
       "description": "Operations to be excluded from the module",
       "examples": [
-        ["create", "update", "delete"],
-        ["create", "update", "delete", "findById"]
+        [
+          "create",
+          "update",
+          "delete"
+        ],
+        [
+          "create",
+          "update",
+          "delete",
+          "findById"
+        ]
       ],
       "items": {
         "enum": [
@@ -357,25 +415,35 @@
           "type": "string",
           "description": "Font set outline icon to be used in the front application",
           "minLength": 2,
-          "examples": ["material-symbols-outlined"]
+          "examples": [
+            "material-symbols-outlined"
+          ]
         },
         "outlineIcon": {
           "type": "string",
           "description": "Outline icon to be used in the front application",
           "minLength": 2,
-          "examples": ["heroicons_solid:tag", "photo_auto_merge"]
+          "examples": [
+            "heroicons_solid:tag",
+            "photo_auto_merge"
+          ]
         },
         "solidFontSetIcon": {
           "type": "string",
           "description": "Font set solid icon to be used in the front application",
           "minLength": 2,
-          "examples": ["material-symbols-outlined"]
+          "examples": [
+            "material-symbols-outlined"
+          ]
         },
         "solidIcon": {
           "type": "string",
           "description": "Solid icon to be used in the front application",
           "minLength": 2,
-          "examples": ["heroicons_solid:tag", "photo_auto_merge"]
+          "examples": [
+            "heroicons_solid:tag",
+            "photo_auto_merge"
+          ]
         }
       }
     },
@@ -443,43 +511,61 @@
     "boundedContextName": {
       "type": "string",
       "description": "The name of the package, singular in kebab case",
-      "examples": ["iam", "queue-manager"],
+      "examples": [
+        "iam",
+        "queue-manager"
+      ],
       "minLength": 2
     },
     "moduleName": {
       "type": "string",
       "description": "The name of the module, singular in kebab case",
-      "examples": ["account", "job-registry"],
+      "examples": [
+        "account",
+        "job-registry"
+      ],
       "minLength": 2
     },
     "moduleNames": {
       "type": "string",
       "description": "The name of the module, plural in kebab case",
-      "examples": ["accounts", "jobs-registry"],
+      "examples": [
+        "accounts",
+        "jobs-registry"
+      ],
       "minLength": 2
     },
     "aggregateName": {
       "type": "string",
       "description": "The name of the aggregateName, singular in pascal case, is composed of the boundedContextName plus the moduleName",
-      "examples": ["IamAccount", "QueueManagerJobRegistry"],
+      "examples": [
+        "IamAccount",
+        "QueueManagerJobRegistry"
+      ],
       "minLength": 2
     },
     "hasOAuth": {
       "type": "boolean",
       "description": "Enabled authentication for this module",
-      "examples": [false],
+      "examples": [
+        false
+      ],
       "default": false
     },
     "hasTenant": {
       "type": "boolean",
       "description": "Enabled tenant for this module",
-      "examples": [false],
+      "examples": [
+        false
+      ],
       "default": false
     },
     "hasAuditing": {
       "type": "boolean",
       "description": "Enabled auditing for this module",
-      "examples": [false],
+      "examples": [
+        false
+      ],
       "default": false
     },
     "front": {
