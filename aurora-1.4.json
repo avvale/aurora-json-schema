@@ -198,6 +198,10 @@
           "type": "boolean",
           "description": "Set number property as auto increment"
         },
+        "readonly": {
+          "type": "boolean",
+          "description": "Set property as read only"
+        },
         "applyTimezone": {
           "type": "boolean",
           "description": "Apply timezone to date property, by default is true"
