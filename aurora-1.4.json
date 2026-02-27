@@ -173,6 +173,9 @@
             },
             {
               "type": "boolean"
+            },
+            {
+              "type": "array"
             }
           ],
           "description": "Default value for property"
@@ -567,6 +570,11 @@
         false
       ],
       "default": false
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the module and its function and interaction with the other modules in the package",
+      "minLength": 2
     },
     "front": {
       "$ref": "#/definitions/frontDefinition"
