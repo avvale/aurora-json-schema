@@ -367,7 +367,31 @@
         "isListHidden": {
           "type": "boolean",
           "description": "Set hidden web component on list view"
+        },
+        "displayFields": {
+          "type": "array",
+          "description": "Fields to display in the grid-select-element web component",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
         }
+      },
+      "if": {
+        "properties": {
+          "type": {
+            "const": "grid-select-element"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "required": [
+          "displayFields"
+        ]
       }
     },
     "excludedOperationDefinition": {
