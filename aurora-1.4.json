@@ -423,7 +423,6 @@
           "max",
           "min",
           "paginate",
-          "rawSql",
           "getRaw",
           "sum",
           "updateAndIncrement",
