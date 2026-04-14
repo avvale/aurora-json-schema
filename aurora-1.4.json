@@ -376,6 +376,16 @@
             "minLength": 1
           },
           "minItems": 1
+        },
+        "tab": {
+          "type": "string",
+          "description": "Name of the tab where the field will be placed, enabling a tab-based form layout",
+          "minLength": 1
+        },
+        "group": {
+          "type": "string",
+          "description": "Name of the group that groups fields into a section within the form, either inside a tab or standalone",
+          "minLength": 1
         }
       },
       "if": {
@@ -437,12 +447,47 @@
       "additionalProperties": false,
       "description": "Appearance properties for front application",
       "properties": {
-        "outlineFontSetIcon": {
+        "iconModule": {
           "type": "string",
-          "description": "Font set outline icon to be used in the front application",
-          "minLength": 2,
-          "examples": [
-            "material-symbols-outlined"
+          "description": "Icon library to be used in the front application",
+          "default": "@ng-icons/lucide",
+          "enum": [
+            "@ng-icons/bootstrap-icons",
+            "@ng-icons/heroicons",
+            "@ng-icons/ionicons",
+            "@ng-icons/material-icons",
+            "@ng-icons/material-file-icons",
+            "@ng-icons/css.gg",
+            "@ng-icons/feather-icons",
+            "@ng-icons/jam-icons",
+            "@ng-icons/octicons",
+            "@ng-icons/radix-icons",
+            "@ng-icons/tabler-icons",
+            "@ng-icons/akar-icons",
+            "@ng-icons/iconoir",
+            "@ng-icons/cryptocurrency-icons",
+            "@ng-icons/simple-icons",
+            "@ng-icons/typicons",
+            "@ng-icons/dripicons",
+            "@ng-icons/ux-aspects",
+            "@ng-icons/circum-icons",
+            "@ng-icons/remixicon",
+            "@ng-icons/font-awesome",
+            "@ng-icons/iconsax",
+            "@ng-icons/tdesign-icons",
+            "@ng-icons/phosphor-icons",
+            "@ng-icons/lets-icons",
+            "@ng-icons/huge-icons",
+            "@ng-icons/devicon",
+            "@ng-icons/game-icons",
+            "@ng-icons/solar-icons",
+            "@ng-icons/svgl",
+            "@ng-icons/material-symbols",
+            "@ng-icons/mynaui",
+            "@ng-icons/boxicons",
+            "@ng-icons/mono-icons",
+            "@ng-icons/lucide",
+            "@ng-icons/coolicons"
           ]
         },
         "outlineIcon": {
@@ -450,16 +495,9 @@
           "description": "Outline icon to be used in the front application",
           "minLength": 2,
           "examples": [
-            "heroicons_solid:tag",
-            "photo_auto_merge"
-          ]
-        },
-        "solidFontSetIcon": {
-          "type": "string",
-          "description": "Font set solid icon to be used in the front application",
-          "minLength": 2,
-          "examples": [
-            "material-symbols-outlined"
+            "lucideTag",
+            "lucideOctagonPause",
+            "heroArchiveBoxXMark"
           ]
         },
         "solidIcon": {
@@ -467,8 +505,16 @@
           "description": "Solid icon to be used in the front application",
           "minLength": 2,
           "examples": [
-            "heroicons_solid:tag",
-            "photo_auto_merge"
+            "heroAcademicCapSolid",
+            "heroArchiveBoxSolid"
+          ]
+        },
+        "detailMode": {
+          "type": "string",
+          "description": "Detail view mode for the front application, define detail in a dialog or in a separated view",
+          "enum": [
+            "view",
+            "dialog"
           ]
         }
       }
