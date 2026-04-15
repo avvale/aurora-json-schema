@@ -447,6 +447,15 @@
       "additionalProperties": false,
       "description": "Appearance properties for front application",
       "properties": {
+        "gender": {
+          "type": "string",
+          "description": "Grammatical gender to be used in the front application",
+          "default": "masculine",
+          "enum": [
+            "masculine",
+            "feminine"
+          ]
+        },
         "iconModule": {
           "type": "string",
           "description": "Icon library to be used in the front application",
