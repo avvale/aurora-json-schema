@@ -212,8 +212,8 @@
         "relationship": {
           "$ref": "#/definitions/relationshipDefinition"
         },
-        "webComponent": {
-          "$ref": "#/definitions/webComponentDefinition"
+        "widget": {
+          "$ref": "#/definitions/widgetDefinition"
         }
       }
     },
@@ -268,7 +268,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "description": "The type of web component",
+          "description": "The type of relationship",
           "enum": [
             "many-to-many",
             "many-to-one",
@@ -325,14 +325,14 @@
         }
       }
     },
-    "webComponentDefinition": {
+    "widgetDefinition": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Web Component that wil be rendered for this property",
+      "description": "Angular widget that will be rendered for this property",
       "properties": {
         "type": {
           "type": "string",
-          "description": "The type of web component",
+          "description": "The type of widget",
           "enum": [
             "async-search-multiple-select",
             "async-search-select",
@@ -347,7 +347,7 @@
         },
         "className": {
           "type": "string",
-          "description": "CSS class for web component",
+          "description": "CSS class for widget",
           "minLength": 2
         },
         "detailSort": {
@@ -357,7 +357,7 @@
         },
         "isDetailHidden": {
           "type": "boolean",
-          "description": "Set hidden web component on detail view"
+          "description": "Set hidden widget on detail view"
         },
         "listSort": {
           "type": "number",
@@ -366,11 +366,11 @@
         },
         "isListHidden": {
           "type": "boolean",
-          "description": "Set hidden web component on list view"
+          "description": "Set hidden widget on list view"
         },
         "displayFields": {
           "type": "array",
-          "description": "Fields to display in the grid-select-element web component",
+          "description": "Fields to display in the grid-select-element widget",
           "items": {
             "type": "string",
             "minLength": 1
