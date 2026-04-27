@@ -386,6 +386,12 @@
           "type": "string",
           "description": "Name of the group that groups fields into a section within the form, either inside a tab or standalone",
           "minLength": 1
+        },
+        "span": {
+          "type": "integer",
+          "description": "Per-property column span override on the form's 12-column grid. Integer 1-12. When omitted, the codegen picks a default by type (and by maxLength for varchar)",
+          "minimum": 1,
+          "maximum": 12
         }
       },
       "if": {
