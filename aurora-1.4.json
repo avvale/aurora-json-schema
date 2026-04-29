@@ -531,6 +531,10 @@
             "view",
             "dialog"
           ]
+        },
+        "embedSupport": {
+          "type": "boolean",
+          "description": "SPEC-15: when true, the module generates embed-mode artifacts (form-embed component, embed columns config, list mode embed). Required when another module references this one via widget.type: grid-elements-manager. Default: false."
         }
       }
     },
