@@ -64,7 +64,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "description": "The type of property",
+              "description": "The type of each array element",
               "enum": [
                 "char",
                 "date",
@@ -112,7 +112,7 @@
         },
         "unsigned": {
           "type": "boolean",
-          "description": "Set property like unsigned"
+          "description": "Set property as unsigned"
         },
         "primaryKey": {
           "type": "boolean",
@@ -120,7 +120,7 @@
         },
         "index": {
           "type": "string",
-          "description": "To define property like a index",
+          "description": "Define an index on this property: 'index' for a regular index or 'unique' for a uniqueness constraint",
           "enum": [
             "index",
             "unique"
@@ -141,7 +141,7 @@
         },
         "indexUsing": {
           "type": "string",
-          "description": "To define property like a index",
+          "description": "Index access method/algorithm used by the database engine (Btree, GIN, HASH, etc.)",
           "enum": [
             "Btree",
             "GIN",
@@ -328,7 +328,7 @@
     "widgetDefinition": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Angular widget that will be rendered for this property",
+      "description": "UI widget that will be rendered for this property",
       "properties": {
         "type": {
           "type": "string",
@@ -534,7 +534,12 @@
         },
         "embedSupport": {
           "type": "boolean",
-          "description": "SPEC-15: when true, the module generates embed-mode artifacts (form-embed component, embed columns config, list mode embed). Required when another module references this one via widget.type: grid-elements-manager. Default: false."
+          "description": "When true, the module generates embed-mode artifacts (form-embed component, embed columns config, list mode embed). Required when another module references this one via widget.type: grid-elements-manager. Default: false."
+        },
+        "displayField": {
+          "type": "string",
+          "description": "Human-readable display label for this aggregate. Accepts either an identifier (a single property name, e.g. 'name', 'email') or an interpolation template with {fieldName} placeholders (e.g. '{code} - {name}', 'Plan: {planId}'). Codegen substitutes placeholders with the corresponding property reference at emit time; segments that are not valid JS identifiers inside braces are emitted as literal text. Defaults to 'name' when unset. Used for list-component delete confirmation toasts and FK column display rendering.",
+          "minLength": 1
         }
       }
     },
@@ -591,7 +596,7 @@
       }
     }
   },
-  "description": "Make agile applications without technical debt",
+  "description": "Aurora module definition: describes a bounded context module with its aggregate, properties, relationships and front configuration",
   "properties": {
     "version": {
       "type": "string",
