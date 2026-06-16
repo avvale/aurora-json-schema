@@ -38,6 +38,7 @@
             "boolean",
             "char",
             "date",
+            "dateTime",
             "decimal",
             "encrypted",
             "enum",
@@ -68,6 +69,7 @@
               "enum": [
                 "char",
                 "date",
+                "dateTime",
                 "decimal",
                 "enum",
                 "id",
