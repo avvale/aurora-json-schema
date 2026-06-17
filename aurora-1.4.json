@@ -338,6 +338,7 @@
           "enum": [
             "async-multiple-search-select",
             "async-search-select",
+            "color-picker",
             "grid-elements-manager",
             "grid-select-element",
             "grid-select-multiple-elements",
