@@ -535,6 +535,18 @@
             "dialog"
           ]
         },
+        "dialogWidth": {
+          "type": "string",
+          "description": "Width of the create/edit dialog when detailMode is 'dialog'. Named size tokens that map to a definite, responsive width (min(92vw, cap)) so the dialog never resizes with its selected content: sm=28rem, md=42rem, lg=56rem, xl=72rem, full=min(95vw,90rem). Use larger tokens for forms with more fields that need more screen from the start. Ignored when detailMode is 'view'. Defaults to 'md'.",
+          "enum": [
+            "sm",
+            "md",
+            "lg",
+            "xl",
+            "full"
+          ],
+          "default": "md"
+        },
         "embedSupport": {
           "type": "boolean",
           "description": "When true, the module generates embed-mode artifacts (form-embed component, embed columns config, list mode embed). Required when another module references this one via widget.type: grid-elements-manager. Default: false."
