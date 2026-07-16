@@ -667,6 +667,18 @@
       ],
       "default": false
     },
+    "i18nStrategy": {
+      "type": "string",
+      "description": "Strategy the generator uses to persist translations for properties marked with isI18n. 'embedded' stores per-locale JSON in a <property>_i18n jsonb column alongside a <property>_i18n_search_text column on the same table (best for 1-2 translatable fields); 'table' derives a companion <aggregate>_i18n table with a FK to the parent (best for many translatable fields or fields expected to grow). Ignored when no property sets isI18n.",
+      "enum": [
+        "embedded",
+        "table"
+      ],
+      "examples": [
+        "embedded"
+      ],
+      "default": "embedded"
+    },
     "description": {
       "type": "string",
       "description": "Description of the module and its function and interaction with the other modules in the package",
