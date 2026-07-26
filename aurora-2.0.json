@@ -40,7 +40,6 @@
             "date",
             "dateTime",
             "decimal",
-            "encrypted",
             "enum",
             "float",
             "id",
