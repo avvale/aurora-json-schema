@@ -32,7 +32,9 @@ Each schema defines these core definitions referenced via `$ref`:
 - **additionalApisDefinition** — custom API endpoint specifications
 - **relationshipDefinition** — entity relationship configurations (many-to-one, many-to-many)
 
-Property types include: `id`, `varchar`, `char`, `text`, `int`, `bigint`, `smallint`, `float`, `decimal`, `boolean`, `date`, `timestamp`, `blob`, `json`, `jsonb`, `enum`, `encrypted`, `password`, `array`, `relationship`, `manyToMany`.
+Property types include: `id`, `varchar`, `char`, `text`, `int`, `bigint`, `smallint`, `float`, `decimal`, `boolean`, `date`, `timestamp`, `blob`, `json`, `jsonb`, `enum`, `password`, `secret`, `array`, `relationship`, `manyToMany`.
+
+`encrypted` was retired (see `negative_test/aurora-2.0/retired-encrypted-type.aurora.yaml`): it never had a runtime handler and was silently stored as plaintext. Use `varchar` (same storage) or `secret` (masked-on-read) instead.
 
 ## Schema Versioning
 
