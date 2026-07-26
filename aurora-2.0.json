@@ -50,6 +50,7 @@
             "manyToMany",
             "password",
             "relationship",
+            "secret",
             "smallint",
             "text",
             "timestamp",
