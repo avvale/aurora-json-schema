@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "test": "node --test scripts/lib/*.test.js",
+    "sync-catalog": "node scripts/publish-to-schemastore.js --sync-catalog",
+    "publish:schemastore": "node scripts/publish-to-schemastore.js"
+  },
   "devDependencies": {
     "prettier": "2.8.8",
     "prettier-plugin-sort-json": "^1.0.0"
