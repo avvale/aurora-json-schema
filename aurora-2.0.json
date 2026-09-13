@@ -11,6 +11,22 @@
         "type"
       ],
       "additionalProperties": false,
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "readOnly",
+              "readonly"
+            ]
+          },
+          {
+            "required": [
+              "readOnly",
+              "createOnly"
+            ]
+          }
+        ]
+      },
       "properties": {
         "name": {
           "type": "string",
@@ -203,9 +219,17 @@
           "type": "boolean",
           "description": "Set number property as auto increment"
         },
+        "readOnly": {
+          "type": "boolean",
+          "description": "The system computes this property's value; the client never writes it, on any operation (create or update). Mutually exclusive with createOnly on the same property."
+        },
         "readonly": {
           "type": "boolean",
-          "description": "Set property as read only"
+          "description": "Deprecated alias for readOnly, still accepted for backward compatibility. Will be removed in core-back@3.0.0 and the next CLI major. Use readOnly instead."
+        },
+        "createOnly": {
+          "type": "boolean",
+          "description": "The client chooses this property's value at creation and it is frozen afterwards: accepted on create, rejected on update. Does NOT belong here: a UI-only lock (use widget instead), a system-computed value (use readOnly instead), or a freeze conditioned on the record's state or a state machine (implement those by hand). Mutually exclusive with readOnly on the same property."
         },
         "applyTimezone": {
           "type": "boolean",
