@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=../../schemas/json/aurora-2.0.json
 # This fixture exercises the DEPRECATED `readonly` spelling on purpose, to prove
-# the schema still accepts it during the compatibility window (removed in
-# core-back@3.0.0 and the next CLI major). New modules should use `readOnly`.
+# the schema still accepts it: core-back no longer reads it, but the CLI loader
+# still normalises it to `readOnly`. New modules should use `readOnly`.
 version: 0.0.1
 boundedContextName: library
 moduleName: book
