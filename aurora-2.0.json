@@ -225,7 +225,7 @@
         },
         "readonly": {
           "type": "boolean",
-          "description": "Deprecated alias for readOnly, still accepted for backward compatibility. Will be removed in core-back@3.0.0 and the next CLI major. Use readOnly instead."
+          "description": "Deprecated alias for readOnly. core-back no longer reads it; the CLI loader still accepts it and normalises it to readOnly when loading a YAML schema. Use readOnly instead."
         },
         "createOnly": {
           "type": "boolean",
