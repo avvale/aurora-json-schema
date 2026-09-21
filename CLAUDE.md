@@ -15,6 +15,8 @@ Documentation: https://docs.aurorajs.dev/
 - `test/aurora-{version}/` — Valid YAML examples per schema version (author, book, country, lang)
 - `negative_test/aurora-{version}/` — Invalid YAML examples for constraint validation
 
+Every fixture (`test/` and `negative_test/`) must start with the schema pragma line (`# yaml-language-server: $schema=../../schemas/json/aurora-{version}.json`) — SchemaStore's own `node cli.js check` fails a fixture without it.
+
 ## Commands
 
 **Format JSON files:**
