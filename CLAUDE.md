@@ -55,14 +55,14 @@ Property types include: `id`, `varchar`, `char`, `text`, `int`, `bigint`, `small
 ## Publishing to SchemaStore
 
 This repo is a staging area: it never contains a SchemaStore fork or clone. `scripts/publish-to-schemastore.js`
-automates getting a new version from here into `github.com/SchemaStore/schemastore`, always working through a
+automates getting a new or updated version from here into `github.com/SchemaStore/schemastore`, always working through a
 throwaway clone under the OS temp dir.
 
 ```bash
 npm run sync-catalog                                # fix a stale local catalog.json (run this first if unsure)
-npm run publish:schemastore -- --version=2.1         # stage a PR branch on the fork, no push yet is possible via flags
-npm run publish:schemastore -- --version=2.1 --make-default --open-pr
-npm test                                             # unit tests for the pure catalog/schema-validation merge logic
+npm run publish:schemastore -- --version=2.0         # new or updated version: stage the PR branch on the fork
+npm run publish:schemastore -- --version=2.0 --open-pr
+npm test                                             # unit tests for the catalog merge and the fork clone handling
 ```
 
 ### The two non-negotiable invariants
@@ -81,13 +81,16 @@ npm test                                             # unit tests for the pure c
 Both make the merge and the branch idempotent: re-running the script for the same version changes nothing
 further, never duplicates a catalog entry, and never reorders the rest of the (huge) upstream catalog.
 
-### Gotcha found while building this: `src/schema-validation.jsonc`
+### `src/schema-validation.jsonc`: the script never touches it
 
-Every prior `aurora-*.json` version is opted out of upstream's default strict-AJV validation via the
-`ajvNotStrictMode` list in `src/schema-validation.jsonc`. This isn't mentioned anywhere in SchemaStore's own
-docs for contributors — it was only found by reading the file. The script appends the new version there too
-(idempotently, keeping alphabetical order); skipping this step makes `node cli.js check` fail on an otherwise
-correct new schema.
+Upstream's `ajvNotStrictMode` list opts a schema out of Ajv's strict mode. `aurora-2.0.json` is NOT on it — SchemaStore
+PR #6188 made it pass strict mode and removed it — so every change to the schema must keep passing strict mode
+(`node cli.js check --schema-name=aurora-2.0.json` in the fork clone). The script used to append the version to
+that list on every run, which hid exactly that failure; if a version fails strict mode, fix the schema.
+
+The catalog merge is text-level (`mergeCatalogText`): only the Aurora entry is rewritten. A `JSON.parse`/`stringify`
+round trip of the whole catalog is not an option — `JSON.parse` sorts integer-like keys, so it reorders other
+projects' `versions` maps (Renovate's `"43"`, `"42"`, ...) and puts that noise in the upstream PR.
 
 ### What the script does NOT do automatically
 

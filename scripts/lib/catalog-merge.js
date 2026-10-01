@@ -64,4 +64,66 @@ function mergeCatalogEntry(upstreamCatalog, { schemaName, newVersion, makeDefaul
   return { ...upstreamCatalog, schemas }
 }
 
-module.exports = { mergeCatalogEntry }
+/**
+ * Finds the `[start, end)` text span of every object in the top-level
+ * `schemas` array. String-aware, so braces inside descriptions do not count.
+ */
+function schemaEntrySpans(text) {
+  const spans = []
+  let depth = 0
+  let inString = false
+  let entryStart = -1
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i]
+    if (inString) {
+      if (char === '\\') i++
+      else if (char === '"') inString = false
+      continue
+    }
+    if (char === '"') inString = true
+    else if (char === '{' || char === '[') {
+      depth++
+      // root object = 1, "schemas" array = 2, each entry = 3
+      if (depth === 3 && char === '{') entryStart = i
+    } else if (char === '}' || char === ']') {
+      if (depth === 3 && char === '}') spans.push([entryStart, i + 1])
+      depth--
+    }
+  }
+  return spans
+}
+
+/**
+ * Text-level counterpart of `mergeCatalogEntry` for upstream's real
+ * `catalog.json`: only the matching entry is rewritten, every other byte is
+ * kept. A full JSON.parse/stringify round trip is not an option — JSON.parse
+ * sorts integer-like keys, so it reorders other projects' `versions` maps
+ * (Renovate's "43", "42", ...) and puts that noise in the upstream PR.
+ *
+ * @param {string} catalogText contents of upstream `src/api/json/catalog.json`
+ * @param {{schemaName: string, newVersion: string, makeDefault?: boolean}} options
+ * @returns {string} updated text, or the original text when nothing changes
+ */
+function mergeCatalogText(catalogText, options) {
+  const span = schemaEntrySpans(catalogText).find(
+    ([start, end]) => JSON.parse(catalogText.slice(start, end)).name === options.schemaName,
+  )
+  if (!span) {
+    // Reuse mergeCatalogEntry's error for a missing entry.
+    mergeCatalogEntry({ schemas: [] }, options)
+  }
+
+  const [start, end] = span
+  const entry = JSON.parse(catalogText.slice(start, end))
+  const merged = mergeCatalogEntry({ schemas: [entry] }, options).schemas[0]
+  if (JSON.stringify(merged) === JSON.stringify(entry)) {
+    return catalogText
+  }
+
+  const lineStart = catalogText.lastIndexOf('\n', start) + 1
+  const indent = catalogText.slice(lineStart, start)
+  const entryText = JSON.stringify(merged, null, 2).replace(/\n/g, `\n${indent}`)
+  return catalogText.slice(0, start) + entryText + catalogText.slice(end)
+}
+
+module.exports = { mergeCatalogEntry, mergeCatalogText }

@@ -117,3 +117,71 @@ test('adding a version that already exists does not duplicate anything', () => {
   const entry = merged.schemas.find((s) => s.name === 'Aurora Agile Meta-Framework')
   assert.equal(Object.keys(entry.versions).length, 5)
 })
+
+// Text-level merge: upstream's catalog.json is edited in place, never re-serialised whole.
+// JSON.parse sorts integer-like keys ("43", "42" -> "42", "43"), so a full
+// parse/stringify round trip rewrites entries that are not ours.
+const { mergeCatalogText } = require('./catalog-merge')
+
+function sampleUpstreamCatalogText() {
+  return `{
+  "$schema": "https://www.schemastore.org/schema-catalog.json",
+  "version": 1,
+  "schemas": [
+    {
+      "name": "Aurora Agile Meta-Framework",
+      "description": "Yaml for Aurora Agile Meta-Framework",
+      "fileMatch": ["*.aurora.yaml", "*.aurora.yml"],
+      "url": "https://www.schemastore.org/aurora-2.0.json",
+      "versions": {
+        "1.3": "https://www.schemastore.org/aurora-1.3.json",
+        "2.0": "https://www.schemastore.org/aurora-2.0.json"
+      }
+    },
+    {
+      "name": "Renovate",
+      "description": "Renovate config \\"quoted }\\" and an unbalanced } brace",
+      "fileMatch": [],
+      "url": "https://docs.renovatebot.com/renovate-schema.json",
+      "versions": {
+        "43": "https://www.schemastore.org/renovate-43.json",
+        "42": "https://www.schemastore.org/renovate-42.json"
+      }
+    }
+  ]
+}
+`
+}
+
+test('mergeCatalogText returns the text unchanged when the version is already listed', () => {
+  const text = sampleUpstreamCatalogText()
+  assert.equal(mergeCatalogText(text, { schemaName: 'Aurora Agile Meta-Framework', newVersion: '2.0' }), text)
+})
+
+test('mergeCatalogText adds a new version without touching any other entry', () => {
+  const text = sampleUpstreamCatalogText()
+  const merged = mergeCatalogText(text, { schemaName: 'Aurora Agile Meta-Framework', newVersion: '2.1' })
+
+  const entry = JSON.parse(merged).schemas.find((s) => s.name === 'Aurora Agile Meta-Framework')
+  assert.equal(entry.versions['2.1'], 'https://www.schemastore.org/aurora-2.1.json')
+  assert.equal(entry.url, 'https://www.schemastore.org/aurora-2.0.json')
+  assert.ok(
+    merged.includes(
+      '        "2.0": "https://www.schemastore.org/aurora-2.0.json",\n' +
+        '        "2.1": "https://www.schemastore.org/aurora-2.1.json"\n' +
+        '      }\n    },',
+    ),
+    'the spliced entry keeps the indentation of its position in the array',
+  )
+
+  const renovateStart = text.indexOf('    {\n      "name": "Renovate"')
+  assert.ok(merged.endsWith(text.slice(renovateStart)), 'the Renovate entry must stay byte-identical')
+  assert.ok(merged.startsWith(text.slice(0, text.indexOf('    {\n      "name": "Aurora'))))
+})
+
+test('mergeCatalogText throws when the entry is missing', () => {
+  assert.throws(
+    () => mergeCatalogText(sampleUpstreamCatalogText(), { schemaName: 'Nope', newVersion: '2.1' }),
+    /was not found/,
+  )
+})
