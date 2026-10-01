@@ -440,7 +440,7 @@
     },
     "excludedOperationDefinition": {
       "type": "array",
-      "description": "Operations to be excluded from the module",
+      "description": "Operations to be excluded from the module. A plain string excludes the operation from every layer; the object form { operation, layers } excludes it only from the listed layers: api (@api controller, resolver and SDL mutation), app (@app handler and service), ui (frontend route, button and mutation document)",
       "examples": [
         [
           "create",
@@ -452,27 +452,86 @@
           "update",
           "delete",
           "findById"
+        ],
+        [
+          "deleteById",
+          {
+            "operation": "create",
+            "layers": [
+              "api",
+              "ui"
+            ]
+          }
         ]
       ],
       "items": {
-        "enum": [
-          "count",
-          "create",
-          "createBatch",
-          "deleteById",
-          "delete",
-          "findById",
-          "find",
-          "get",
-          "max",
-          "min",
-          "paginate",
-          "getRaw",
-          "sum",
-          "updateAndIncrement",
-          "updateById",
-          "update",
-          "upsert"
+        "oneOf": [
+          {
+            "enum": [
+              "count",
+              "create",
+              "createBatch",
+              "deleteById",
+              "delete",
+              "findById",
+              "find",
+              "get",
+              "max",
+              "min",
+              "paginate",
+              "getRaw",
+              "sum",
+              "updateAndIncrement",
+              "updateById",
+              "update",
+              "upsert"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "Excludes one operation from the listed layers only: api = @api controller, resolver and SDL mutation; app = @app handler and service; ui = frontend route, button and mutation document",
+            "required": [
+              "operation",
+              "layers"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "operation": {
+                "enum": [
+                  "count",
+                  "create",
+                  "createBatch",
+                  "deleteById",
+                  "delete",
+                  "findById",
+                  "find",
+                  "get",
+                  "max",
+                  "min",
+                  "paginate",
+                  "getRaw",
+                  "sum",
+                  "updateAndIncrement",
+                  "updateById",
+                  "update",
+                  "upsert"
+                ]
+              },
+              "layers": {
+                "type": "array",
+                "description": "Layers the operation is excluded from",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "api",
+                    "app",
+                    "ui"
+                  ]
+                }
+              }
+            }
+          }
         ]
       }
     },

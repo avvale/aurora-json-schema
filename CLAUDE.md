@@ -10,7 +10,7 @@ Documentation: https://docs.aurorajs.dev/
 
 ## Repository Structure
 
-- `aurora-{version}.json` — Versioned schema files (1.0 through 1.4, plus 2020-12)
+- `aurora-{version}.json` — Versioned schema files (1.0 through 1.3, and 2.0)
 - `catalog.json` — SchemaStore registry entry (json.schemastore.org) mapping file patterns to schema versions
 - `test/aurora-{version}/` — Valid YAML examples per schema version (author, book, country, lang)
 - `negative_test/aurora-{version}/` — Invalid YAML examples for constraint validation
@@ -19,12 +19,14 @@ Every fixture (`test/` and `negative_test/`) must start with the schema pragma l
 
 ## Commands
 
-**Format JSON files:**
+**Format the catalog:**
 ```bash
-npx prettier --write "*.json"
+npx prettier --write catalog.json
 ```
 
-Prettier is configured with `prettier-plugin-sort-json` to maintain consistent key ordering in schema files.
+Prettier is configured with `prettier-plugin-sort-json`, which sorts keys. Only `catalog.json` and `aurora-1.0.json`
+follow it; the later schema files keep their authored key order, so never run Prettier over them — it rewrites the
+whole file and buries the real change in the diff.
 
 ## Schema Architecture
 
@@ -41,6 +43,11 @@ Property types include: `id`, `varchar`, `char`, `text`, `int`, `bigint`, `small
 ## Schema Versioning
 
 - Schemas evolve incrementally; each version file is self-contained
+- A new version number is earned only by a backward-incompatible change: one that makes a YAML valid under the
+  current version invalid. A backward-compatible change (a new property, enum value or item form) goes into the
+  latest version, published or not, and its next publication updates that file in place on SchemaStore —
+  SchemaStore accepts in-place updates (`aurora-2.0.json` was updated that way in SchemaStore PR #6188). An
+  incompatible change opens a new version, which accumulates every later change until it is published
 - `catalog.json` maps file globs to schema URLs and must be updated when adding new versions
 - Test YAML files in `test/` should be added for each new schema version
 - The `$id` field in each schema should match its filename

@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../../schemas/json/aurora-2.1.json
+# yaml-language-server: $schema=../../schemas/json/aurora-2.0.json
 version: 0.0.1
 boundedContextName: library
 moduleName: book
@@ -17,12 +17,10 @@ aggregateProperties:
     index: unique
     autoIncrement: true
     nullable: false
-  - name: isbn
+  - name: name
     type: varchar
-    maxLength: 20
+    maxLength: 255
     nullable: false
-    readOnly: true
-    createOnly: true
   - name: createdAt
     type: timestamp
     nullable: true
@@ -32,3 +30,6 @@ aggregateProperties:
   - name: deletedAt
     type: timestamp
     nullable: true
+excludedOperations:
+  - operation: create
+    layers: []
