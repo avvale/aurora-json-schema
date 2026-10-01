@@ -1,18 +1,6 @@
-https://json-schema.org/learn/getting-started-step-by-step.html
+# aurora-json-schema
 
-https://json-schema.org/learn/miscellaneous-examples.html
-https://github.com/SchemaStore/schemastore/blob/master/src/schemas/json/cloudify.json
+JSON Schema grammar for Aurora Catalyst `*.aurora.yaml` files, published on
+[SchemaStore](https://www.schemastore.org/aurora-2.0.json).
 
-Referencia
-https://www.learnjsonschema.com/
-
-Install to validate
-https://marketplace.visualstudio.com/items?itemName=prosser.json-schema-2020-validation
-
-DOCUMENTACIÓN
-https://json-schema.org/understanding-json-schema/index.html
-
-
-
-add Aurora framework schema
-Add a new schema for Aurora Framework model definition file
+Repository layout, versioning rule and publishing workflow: see [CLAUDE.md](CLAUDE.md).
