@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../../schemas/json/aurora-2.1.json
+# yaml-language-server: $schema=../../schemas/json/aurora-2.0.json
 version: 0.0.1
 boundedContextName: library
 moduleName: book
@@ -7,7 +7,6 @@ aggregateName: LibraryBook
 hasOAuth: true
 hasTenant: false
 hasAuditing: false
-i18nStrategy: InvalidI18nStrategy
 aggregateProperties:
   - name: id
     type: id
@@ -31,3 +30,7 @@ aggregateProperties:
   - name: deletedAt
     type: timestamp
     nullable: true
+excludedOperations:
+  - operation: create
+    layers: [api]
+    reason: not needed

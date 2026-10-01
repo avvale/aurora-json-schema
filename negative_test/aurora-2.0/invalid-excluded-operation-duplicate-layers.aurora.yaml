@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../../schemas/json/aurora-2.1.json
+# yaml-language-server: $schema=../../schemas/json/aurora-2.0.json
 version: 0.0.1
 boundedContextName: library
 moduleName: book
@@ -32,4 +32,4 @@ aggregateProperties:
     nullable: true
 excludedOperations:
   - operation: create
-    layers: [api, backend]
+    layers: [api, api]
