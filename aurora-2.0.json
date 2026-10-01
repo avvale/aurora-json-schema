@@ -14,12 +14,20 @@
       "not": {
         "anyOf": [
           {
+            "properties": {
+              "readOnly": {},
+              "readonly": {}
+            },
             "required": [
               "readOnly",
               "readonly"
             ]
           },
           {
+            "properties": {
+              "readOnly": {},
+              "createOnly": {}
+            },
             "required": [
               "readOnly",
               "createOnly"
@@ -200,11 +208,19 @@
           "description": "Default value for property"
         },
         "example": {
-          "type": [
-            "number",
-            "string",
-            "boolean",
-            "array"
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "array"
+            }
           ],
           "description": "Example value for property, this value will be used in swagger documentation"
         },
@@ -433,6 +449,11 @@
         ]
       },
       "then": {
+        "properties": {
+          "displayFields": {
+            "$ref": "#/definitions/widgetDefinition/properties/displayFields"
+          }
+        },
         "required": [
           "displayFields"
         ]
