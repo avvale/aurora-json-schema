@@ -2,7 +2,7 @@
 'use strict'
 
 /**
- * Publishes a new Aurora schema version to SchemaStore (github.com/SchemaStore/schemastore)
+ * Publishes an Aurora schema version (new or updated in place) to SchemaStore (github.com/SchemaStore/schemastore)
  * without the fork ever living inside this repo's git tree.
  *
  * Usage:
@@ -20,14 +20,13 @@ const path = require('node:path')
 const os = require('node:os')
 const { execFileSync } = require('node:child_process')
 
-const { mergeCatalogEntry } = require('./lib/catalog-merge')
-const { addAjvNotStrictModeEntry } = require('./lib/schema-validation-merge')
+const { mergeCatalogText } = require('./lib/catalog-merge')
+const { ensureForkClone } = require('./lib/fork-clone')
 
 const REPO_ROOT = path.resolve(__dirname, '..')
 const SCHEMA_NAME = 'Aurora Agile Meta-Framework' // catalog.json "name" identifying our entry upstream
 const UPSTREAM_REPO = 'SchemaStore/schemastore'
 const CATALOG_REL_PATH = 'src/api/json/catalog.json'
-const SCHEMA_VALIDATION_REL_PATH = 'src/schema-validation.jsonc'
 const SCHEMA_DIR_REL_PATH = 'src/schemas/json'
 const TEST_DIR_REL_PATH = 'src/test'
 const NEGATIVE_TEST_DIR_REL_PATH = 'src/negative_test'
@@ -210,15 +209,6 @@ function ensureForkExists(user) {
   }
 }
 
-function ensureForkClone(forkDir, forkRemote) {
-  if (fs.existsSync(path.join(forkDir, '.git'))) {
-    sh('git', ['fetch', 'origin'], { cwd: forkDir })
-  } else {
-    fs.mkdirSync(path.dirname(forkDir), { recursive: true })
-    sh('git', ['clone', forkRemote, forkDir], { cwd: os.tmpdir() })
-  }
-}
-
 /**
  * Branches directly off `upstream/master`, deleting any stale local branch
  * from a previous run first. This IS the "sync fork with upstream before
@@ -251,17 +241,14 @@ function copyFiles(forkDir, { schemaFile, testDir, negativeDir, version }) {
   }
 }
 
+/** @returns {boolean} true when upstream did not list this version yet */
 function applyCatalogMerge(forkDir, { version, makeDefault }) {
   const catalogPath = path.join(forkDir, CATALOG_REL_PATH)
-  const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'))
-  const merged = mergeCatalogEntry(catalog, { schemaName: SCHEMA_NAME, newVersion: version, makeDefault })
-  fs.writeFileSync(catalogPath, JSON.stringify(merged, null, 2) + '\n')
-}
-
-function applySchemaValidationMerge(forkDir, version) {
-  const svPath = path.join(forkDir, SCHEMA_VALIDATION_REL_PATH)
-  const text = fs.readFileSync(svPath, 'utf8')
-  fs.writeFileSync(svPath, addAjvNotStrictModeEntry(text, `aurora-${version}.json`))
+  const text = fs.readFileSync(catalogPath, 'utf8')
+  const entry = JSON.parse(text).schemas.find((schema) => schema.name === SCHEMA_NAME)
+  const isNewVersion = !(entry && entry.versions && entry.versions[version])
+  fs.writeFileSync(catalogPath, mergeCatalogText(text, { schemaName: SCHEMA_NAME, newVersion: version, makeDefault }))
+  return isNewVersion
 }
 
 function runValidation(forkDir) {
@@ -270,19 +257,26 @@ function runValidation(forkDir) {
   sh('node', ['cli.js', 'check'], { cwd: forkDir })
 }
 
-function commitAndPush(forkDir, version, branchName) {
+function commitAndPush(forkDir, { version, isNewVersion, branchName }) {
   sh('git', ['add', '-A'], { cwd: forkDir })
-  const message = `feat: add aurora-${version} schema
+  const message = isNewVersion
+    ? `feat: add aurora-${version} schema
 
 Adds the Aurora Agile Meta-Framework schema version ${version}, its
 positive and negative test fixtures, and registers it in catalog.json.`
+    : `feat: update aurora-${version} schema
+
+Updates the Aurora Agile Meta-Framework schema version ${version} and its
+positive and negative test fixtures.`
   sh('git', ['commit', '-m', message], { cwd: forkDir })
   sh('git', ['push', '--force-with-lease', '--set-upstream', 'origin', branchName], { cwd: forkDir })
 }
 
-function printOrOpenPr(forkDir, { version, openPr, user, branchName }) {
-  const title = `Add aurora-${version} schema`
-  const body = `Adds the Aurora Agile Meta-Framework schema version ${version}.`
+function printOrOpenPr(forkDir, { version, isNewVersion, openPr, user, branchName }) {
+  const title = isNewVersion ? `Add aurora-${version} schema` : `Update aurora-${version} schema`
+  const body = isNewVersion
+    ? `Adds the Aurora Agile Meta-Framework schema version ${version}.`
+    : `Updates the Aurora Agile Meta-Framework schema version ${version} with backward-compatible changes.`
   const prArgs = [
     'pr',
     'create',
@@ -354,14 +348,13 @@ function publish(args) {
     throw new Error('Could not determine the fork remote. Pass --fork-remote=URL explicitly.')
   }
 
-  ensureForkClone(forkDir, forkRemote)
+  ensureForkClone(forkDir, forkRemote, sh)
   syncAndBranch(forkDir, upstreamRemote, branchName)
   copyFiles(forkDir, { ...files, version: args.version })
-  applyCatalogMerge(forkDir, { version: args.version, makeDefault: args.makeDefault })
-  applySchemaValidationMerge(forkDir, args.version)
+  const isNewVersion = applyCatalogMerge(forkDir, { version: args.version, makeDefault: args.makeDefault })
   runValidation(forkDir)
-  commitAndPush(forkDir, args.version, branchName)
-  printOrOpenPr(forkDir, { version: args.version, openPr: args.openPr, user, branchName })
+  commitAndPush(forkDir, { version: args.version, isNewVersion, branchName })
+  printOrOpenPr(forkDir, { version: args.version, isNewVersion, openPr: args.openPr, user, branchName })
 }
 
 function main() {
