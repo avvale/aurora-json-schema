@@ -363,6 +363,10 @@
           "type": "boolean",
           "description": "Set many-to-many relationship as denormalized, creating a field to store the selected ids"
         },
+        "traversableInTenantScope": {
+          "type": "boolean",
+          "description": "Declares that a tenant-scoped read (hasTenant: true) of this aggregate may cross this relation, one hop only. Deny by default: a relation without this key is rejected in where, relations, order and aggregation. It does not scope the target aggregate by tenant: the target's rows are reachable as the target defines them, so declare it only when that is acceptable. Applies to the FK side or the navigation side of the relationship"
+        },
         "pivot": {
           "$ref": "#/definitions/pivotTableDefinition"
         }
