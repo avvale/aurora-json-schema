@@ -463,7 +463,7 @@
     },
     "excludedOperationDefinition": {
       "type": "array",
-      "description": "Operations to be excluded from the module. A plain string excludes the operation from every layer; the object form { operation, layers } excludes it only from the listed layers: api (@api controller, resolver and SDL mutation), app (@app handler and service), ui (frontend route, button and mutation document)",
+      "description": "Operations to be excluded from the module. A plain string excludes the operation from every layer it has; the object form { operation, layers } excludes it only from the listed layers: rest (@api REST controller and its DTO), graphql (@api resolver and its SDL field), api (shorthand for rest plus graphql), app (@app handler and service), ui (frontend route, button and GraphQL document). A layer the operation does not have is a generation error",
       "examples": [
         [
           "create",
@@ -482,6 +482,21 @@
             "operation": "create",
             "layers": [
               "api",
+              "ui"
+            ]
+          }
+        ],
+        [
+          {
+            "operation": "findById",
+            "layers": [
+              "rest"
+            ]
+          },
+          {
+            "operation": "paginate",
+            "layers": [
+              "rest",
               "ui"
             ]
           }
@@ -512,7 +527,7 @@
           },
           {
             "type": "object",
-            "description": "Excludes one operation from the listed layers only: api = @api controller, resolver and SDL mutation; app = @app handler and service; ui = frontend route, button and mutation document",
+            "description": "Excludes one operation from the listed layers only: rest = @api REST controller and its DTO; graphql = @api resolver and its SDL field; api = shorthand for rest plus graphql; app = @app handler and service; ui = frontend route, button and GraphQL document",
             "required": [
               "operation",
               "layers"
@@ -548,6 +563,8 @@
                 "items": {
                   "enum": [
                     "api",
+                    "rest",
+                    "graphql",
                     "app",
                     "ui"
                   ]
