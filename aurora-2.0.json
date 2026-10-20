@@ -452,6 +452,26 @@
           "description": "Per-property column span override on the form's 12-column grid. Integer 1-12. When omitted, the codegen picks a default by type (and by maxLength for varchar)",
           "minimum": 1,
           "maximum": 12
+        },
+        "hint": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Field help shown in a tooltip beside the form label. Both values are seeds of the module translation files: once seeded, the translation JSON owns them",
+          "required": [
+            "text"
+          ],
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "Help text of the field",
+              "minLength": 1
+            },
+            "example": {
+              "type": "string",
+              "description": "Optional example value, shown as an extra line in the tooltip",
+              "minLength": 1
+            }
+          }
         }
       },
       "if": {
