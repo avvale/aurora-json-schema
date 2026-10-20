@@ -354,6 +354,16 @@
           "type": "boolean",
           "description": "Avoid constraint rules for this relationship"
         },
+        "onDelete": {
+          "type": "string",
+          "enum": ["cascade", "restrict", "no-action", "set-null", "set-default"],
+          "description": "Referential action when the referenced row is deleted: cascade, restrict, no-action, set-null or set-default. Takes effect only when avoidConstraint is false; it is never inferred. When omitted, the database default (NO ACTION) applies"
+        },
+        "onUpdate": {
+          "type": "string",
+          "enum": ["cascade", "restrict", "no-action", "set-null", "set-default"],
+          "description": "Referential action when the referenced key is updated: cascade, restrict, no-action, set-null or set-default. Takes effect only when avoidConstraint is false; it is never inferred. When omitted, the database default (NO ACTION) applies"
+        },
         "packageName": {
           "type": "string",
           "description": "Path to packageName where is the relationship, example: @aurora-ts/core",
