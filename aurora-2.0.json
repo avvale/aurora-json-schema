@@ -301,6 +301,10 @@
           "examples": [
             "post"
           ]
+        },
+        "excludedLayers": {
+          "$ref": "#/definitions/layersDefinition",
+          "description": "Layers this additional API is NOT emitted in: rest (REST controller), graphql (resolver and its SDL field), api (shorthand for rest plus graphql), app (@app handler), ui (frontend GraphQL document). A layer is excluded only when listed"
         }
       }
     },
@@ -495,6 +499,21 @@
         ]
       }
     },
+    "layersDefinition": {
+      "type": "array",
+      "description": "Non-empty list of unique layers: rest, graphql, api (shorthand for rest plus graphql), app and ui",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "api",
+          "rest",
+          "graphql",
+          "app",
+          "ui"
+        ]
+      }
+    },
     "excludedOperationDefinition": {
       "type": "array",
       "description": "Operations to be excluded from the module. A plain string excludes the operation from every layer it has; the object form { operation, layers } excludes it only from the listed layers: rest (@api REST controller and its DTO), graphql (@api resolver and its SDL field), api (shorthand for rest plus graphql), app (@app handler and service), ui (frontend route, button and GraphQL document). A layer the operation does not have is a generation error",
@@ -590,19 +609,8 @@
                 ]
               },
               "layers": {
-                "type": "array",
-                "description": "Layers the operation is excluded from",
-                "minItems": 1,
-                "uniqueItems": true,
-                "items": {
-                  "enum": [
-                    "api",
-                    "rest",
-                    "graphql",
-                    "app",
-                    "ui"
-                  ]
-                }
+                "$ref": "#/definitions/layersDefinition",
+                "description": "Layers the operation is excluded from"
               }
             }
           }
